@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const path = require("path");
+const mongoose = require("mongoose");
 
 const app = express();
 const port = 3000;
@@ -11,7 +12,10 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-
+mongoose.connect("mongodb://localhost27017/userDB", {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 app.get("/", (req, res) => {
 	res.render("home");
 });
