@@ -22,5 +22,5 @@ app.get("/register", (req, res) => {
 	res.render("register");
 });
 app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`);
+	console.log(`Server is listening at http://localhost:${port}`);
 });
