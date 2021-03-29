@@ -16,6 +16,12 @@ mongoose.connect("mongodb://localhost27017/userDB", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
+const userSchema = new mongoose.Schema({
+	email: String,
+	password: String,
+});
+const User = new mongoose.model("User", userSchema);
+
 app.get("/", (req, res) => {
 	res.render("home");
 });
@@ -24,6 +30,20 @@ app.get("/login", (req, res) => {
 });
 app.get("/register", (req, res) => {
 	res.render("register");
+});
+
+app.post("/register", (req, res) => {
+	const newUser = new User({
+		email: req.body.username,
+		password: req.body.password,
+	});
+	newUser.save(function (err) {
+		if (err) {
+			console.log("Error");
+		} else {
+			res.render("secrets");
+		}
+	});
 });
 app.listen(port, () => {
 	console.log(`Server is listening at http://localhost:${port}`);
