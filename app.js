@@ -46,6 +46,21 @@ app.post("/register", (req, res) => {
 		}
 	});
 });
+app.post("/login", (req, res) => {
+	const username = req.body.username;
+	const password = req.body.password;
+	User.findOne({ email: username }, function (err, foundUser) {
+		if (err) {
+			console.log(err);
+		} else {
+			if (foundUser) {
+				if (foundUser.password === password) {
+					res.render("secrets");
+				}
+			}
+		}
+	});
+});
 app.listen(port, () => {
 	console.log(`Server is listening at http://localhost:${port}`);
 });
