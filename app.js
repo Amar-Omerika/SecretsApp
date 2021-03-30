@@ -43,7 +43,7 @@ app.post("/register", (req, res) => {
 	});
 	newUser.save(function (err) {
 		if (err) {
-			console.log("Error");
+			console.log(err);
 		} else {
 			res.render("secrets");
 		}
