@@ -6,7 +6,8 @@ const ejs = require("ejs");
 const path = require("path");
 const mongoose = require("mongoose");
 
-const md5 = require("md5");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const app = express();
 const port = 3000;
