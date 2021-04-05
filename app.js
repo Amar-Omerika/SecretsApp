@@ -55,15 +55,17 @@ app.post("/register", (req, res) => {
 });
 app.post("/login", (req, res) => {
 	const username = req.body.username;
-	const password = md5(req.body.password);
+	const password = req.body.password;
 	User.findOne({ email: username }, function (err, foundUser) {
 		if (err) {
 			console.log(err);
 		} else {
 			if (foundUser) {
-				if (foundUser.password === password) {
-					res.render("secrets");
-				}
+				bcrypt.compare(password, foundUser.password, function (err, result) {
+					if (result === true) {
+						res.render("secrets");
+					}
+				});
 			}
 		}
 	});
