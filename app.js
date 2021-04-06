@@ -83,6 +83,15 @@ app.post("/login", (req, res) => {
 		username: req.body.username,
 		password: req.body.password,
 	});
+	req.login(user, function (err) {
+		if (err) {
+			console.log(err);
+		} else {
+			passport.authenticate("local")(req, res, function () {
+				res.redirect("/secrets");
+			});
+		}
+	});
 });
 app.listen(port, () => {
 	console.log(`Server is listening at http://localhost:${port}`);
