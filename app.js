@@ -61,7 +61,10 @@ app.get("/secrets", (req, res) => {
 		res.redirect("/login");
 	}
 });
-
+app.get("/logout", (req, res) => {
+	req.logout();
+	res.redirect("/");
+});
 app.post("/register", (req, res) => {
 	User.register(
 		{ username: req.body.username },
@@ -93,6 +96,7 @@ app.post("/login", (req, res) => {
 		}
 	});
 });
+
 app.listen(port, () => {
 	console.log(`Server is listening at http://localhost:${port}`);
 });
