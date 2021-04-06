@@ -78,7 +78,12 @@ app.post("/register", (req, res) => {
 		}
 	);
 });
-app.post("/login", (req, res) => {});
+app.post("/login", (req, res) => {
+	const user = new User({
+		username: req.body.username,
+		password: req.body.password,
+	});
+});
 app.listen(port, () => {
 	console.log(`Server is listening at http://localhost:${port}`);
 });
