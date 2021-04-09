@@ -9,6 +9,7 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMogoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
 const port = 3000;
@@ -16,7 +17,7 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
-//this section here of code needs to be placed right here
+//this section here of code needs to be placed right here or it won't work
 app.use(
 	session({
 		secret: "Our little secret.",
@@ -38,6 +39,7 @@ const userSchema = new mongoose.Schema({
 	password: String,
 });
 userSchema.plugin(passportLocalMogoose);
+userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
 passport.use(User.createStrategy());
