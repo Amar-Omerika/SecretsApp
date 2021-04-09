@@ -70,6 +70,14 @@ app.get(
 	"/auth/google",
 	passport.authenticate("google", { scope: ["profile"] })
 );
+app.get(
+	"/auth/google/callback/secrets",
+	passport.authenticate("google", { failureRedirect: "/login" }),
+	function (req, res) {
+		// Successful authentication, redirect home.
+		res.redirect("/");
+	}
+);
 app.get("/login", (req, res) => {
 	res.render("login");
 });
