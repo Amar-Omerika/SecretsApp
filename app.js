@@ -71,7 +71,7 @@ app.get(
 	passport.authenticate("google", { scope: ["profile"] })
 );
 app.get(
-	"/auth/google/callback/secrets",
+	"/auth/google/secrets",
 	passport.authenticate("google", { failureRedirect: "/login" }),
 	function (req, res) {
 		// Successful authentication, redirect home.
