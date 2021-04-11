@@ -108,6 +108,10 @@ app.get("/submit", function (req, res) {
 		res.redirect("/login");
 	}
 });
+
+app.post("/submit", function (req, res) {
+	const submittedSecret = req.body.secret;
+});
 app.get("/logout", (req, res) => {
 	req.logout();
 	res.redirect("/");
