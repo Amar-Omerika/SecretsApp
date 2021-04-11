@@ -92,9 +92,18 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
 	res.render("register");
 });
+
 app.get("/secrets", (req, res) => {
 	if (req.isAuthenticated()) {
 		res.render("secrets");
+	} else {
+		res.redirect("/login");
+	}
+});
+
+app.get("/submit", function (req, res) {
+	if (req.isAuthenticated()) {
+		res.render("submit");
 	} else {
 		res.redirect("/login");
 	}
