@@ -83,7 +83,7 @@ app.get(
 	"/auth/google/secrets",
 	passport.authenticate("google", { failureRedirect: "/login" }),
 	function (req, res) {
-		// Successful authentication, redirect home.
+		// Successful authentication, redirect secret.
 		res.redirect("/secrets");
 	}
 );
@@ -112,6 +112,18 @@ app.get("/submit", function (req, res) {
 
 app.post("/submit", function (req, res) {
 	const submittedSecret = req.body.secret;
+	User.findById(req.user.id, function (err, foundUser) {
+		if (err) {
+			console.log(err);
+		} else {
+			if (foundUser) {
+				foundUser.secret = submittedSecret;
+				foundUser.save(function () {
+					res.redirect("/secrets");
+				});
+			}
+		}
+	});
 });
 app.get("/logout", (req, res) => {
 	req.logout();
