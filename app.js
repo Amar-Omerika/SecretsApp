@@ -30,10 +30,13 @@ app.use(passport.session());
 
 mongoose.set("useCreateIndex", true);
 //------------------------------------------
-mongoose.connect("mongodb://localhost:27017/userDB", {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+mongoose.connect(
+	"mongodb+srv://admin-amar:Test123@cluster0.upceh.mongodb.net/userDB",
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	}
+);
 const userSchema = new mongoose.Schema({
 	email: String,
 	password: String,
