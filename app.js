@@ -7,7 +7,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
-const passportLocalMogoose = require("passport-local-mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
 	googleId: String,
 	secret: String,
 });
-userSchema.plugin(passportLocalMogoose);
+userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
