@@ -1,5 +1,7 @@
 //jshint esversion:6
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+}
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -32,13 +34,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(
-	"mongodb+srv://admin-amar:Test123@cluster0.upceh.mongodb.net/userDB",
-	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	}
-);
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/secrets";
+
+mongoose.connect(dbUrl, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
