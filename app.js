@@ -12,7 +12,8 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/secrets";
+const MongoStore = require("connect-mongo");
 const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -22,19 +23,36 @@ app.use(
 		extended: true,
 	})
 );
-
+const secret = process.env.SECRET || "oursecret";
+//sessions
 app.use(
+	session({
+		secret,
+		resave: false,
+		saveUninitialized: false,
+		store: MongoStore.create({
+			mongoUrl: dbUrl,
+			secret,
+			touch: 24 * 3600,
+		}),
+		cookie: {
+			httpOnly: true,
+			// secure:true,
+			expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+			maxAge: 1000 * 60 * 60 * 24 * 7,
+		},
+	})
+);
+/*app.use(
 	session({
 		secret: process.env.SECRET || "Ourlittlesecret",
 		resave: false,
 		saveUninitialized: false,
 	})
-);
+);*/
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/secrets";
 
 mongoose.connect(dbUrl, {
 	useNewUrlParser: true,
