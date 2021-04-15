@@ -3,12 +3,12 @@ if (process.env.NODE_ENV !== "production") {
 	require("dotenv").config();
 }
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
-const path = require("path");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
@@ -25,7 +25,7 @@ app.use(
 
 app.use(
 	session({
-		secret: "Our little secret.",
+		secret: process.env.SECRET || "Ourlittlesecret",
 		resave: false,
 		saveUninitialized: false,
 	})
@@ -38,9 +38,10 @@ const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/secrets";
 
 mongoose.connect(dbUrl, {
 	useNewUrlParser: true,
+	useCreateIndex: true,
 	useUnifiedTopology: true,
+	useFindAndModify: false,
 });
-mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
 	email: String,
@@ -134,6 +135,7 @@ app.post("/submit", function (req, res) {
 	const submittedSecret = req.body.secret;
 
 	//Once the user is authenticated and their session gets saved, their user details are saved to req.user.
+	// console.log(req.user.id);
 
 	User.findById(req.user.id, function (err, foundUser) {
 		if (err) {
