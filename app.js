@@ -86,7 +86,8 @@ passport.use(
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL:
 				"https://glacial-falls-04740.herokuapp.com/auth/google/secrets",
-			userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+			userProfileURL:
+				"https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={accessToken}",
 		},
 		function (accessToken, refreshToken, profile, cb) {
 			console.log(profile);
